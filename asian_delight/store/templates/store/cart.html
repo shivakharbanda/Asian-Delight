@@ -1,0 +1,137 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content%}
+<style>
+    
+    .product-img  {
+        display: block;
+        max-height: 100px;  
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 180px; 
+        width: auto; 
+        padding-right: 25%;
+        padding-left: 15%; 
+        padding-top: 1%; 
+        padding-bottom: 1%;
+        min-width: 25px;
+    }
+    .box-element-product {
+        box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 5px;
+        
+        min-width: 140px;
+        margin-right: -15%;
+    }
+
+    @media only screen and (max-width: 400px) {
+        .container {
+            margin-left: -2%;
+            padding-right: 2%;
+        }
+    }
+
+    
+
+</style>
+
+<div class="container">
+    <h1>Asian Delight Cart</h1>
+    <div class="row mb-3">
+
+        <div class="col-md-4 themed-grid-col">
+            <div class="box-element">
+                <a href="{% url 'store'%}" class="btn btn-outline-dark" style="margin-bottom: 1%;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewbox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    Continue Shoping
+                </a>
+                <br>
+                <hr>
+                <table class="table">
+                    <tr>
+                        <th><h5>Items: <strong>{{ order.get_cart_items }}</strong></h5></th>
+                        <th><h5>Total: <strong>₹{{ order.get_cart_total }}</strong></h5></th>
+                    </tr>
+                </table>
+                
+                <a style="margin-top: -1em; align-items: right; width: 100%; margin-top: 1%;" class="btn btn-outline-success" href="{% url 'checkout' %}">
+                    Checkout
+                </a>
+            </div>
+        </div>
+
+ 
+
+        <div class="col-md-8 themed-grid-col">
+            <div class="box-element">
+                <h3 style="padding-bottom: 1%;">Cart Items</h3>
+                
+                <hr>
+                
+                {% for item in items %}
+                <div class="cart-row">
+                    <div class="img11" style="flex: 1; min-width: 80px; margin-right: 2em; " >
+                        <div class="box-element-product product" >
+                            <img class="row-image product-img" src="{{ item.product.imageURL }}" alt="something went wrong" >
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 themed-grid-col row" style="margin-left: 2em;">
+                        <div class="pb-3">
+                            <div style="flex: 2;">
+                                <strong>
+                                    {{ item.product.name }}
+                                </strong>
+                            </div>
+
+                            <div style="flex: 2;">
+                            <strong>
+                                Price: ₹{{ item.product.price|floatformat:2 }}
+                            </strong>
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <div class="row" style="margin-right: 15%;">
+                            <div class="col-md-4 themed-grid-col" >
+                                <div style="flex: 2;">
+                                    <strong>
+                                        <svg style="margin-left: 15px;" data-product="{{item.product.id}}" data-action="add" class="chg-quantity bi bi-caret-up-fill update-cart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewbox="0 0 16 16">
+                                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                        </svg>
+                                        Qty: <p class="quantity">{{ item.quantity }}</p> 
+                                        <svg style="margin-left: 15px;" data-product="{{item.product.id}}" data-action="remove" class="chg-quantity bi bi-caret-down-fill update-cart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"  viewbox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                        </svg>
+                                    </strong>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4 themed-grid-col" >
+                                <div style="flex: 2; color: rgb(0, 117, 0);">
+                                    <strong>
+                                        Total: ₹{{ item.get_total }}
+                                    </strong>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                {% endfor %}
+
+            </div>
+        </div>
+        
+
+        
+        
+    </div>
+</div>
+{% endblock content %}

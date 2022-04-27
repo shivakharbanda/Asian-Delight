@@ -1,0 +1,301 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content%}
+
+
+
+<style>
+    .product-img  {
+        display: block;
+        max-height: 100px;  
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 200px; 
+        width: auto; 
+        padding-right: 25%;
+        padding-left: 15%; 
+        padding-top: 1%; 
+        padding-bottom: 1%;
+    }
+    .box-element-product {
+        box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 5px;
+        
+        min-width: 150px;
+        margin-right: 5px;
+    }
+
+</style>
+
+<div  style="margin-left: 1%; margin-right: 1%;">
+    <h1>Asian Delight Checkout</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            
+            <div class="box-element">
+                <a class="btn btn-outline-dark" href="{% url 'cart' %}"> Return to Cart</a>
+                <hr>
+                <div class="row">
+                    <h3 class="col-md-8">Order Summary</h3>
+                    <div class="col-md-4">
+                        
+                        <h5>Total Items: <strong>{{ order.get_cart_items }}</strong></h5>
+                        <h5>Sub-Total: <strong>₹{{ order.get_cart_total }}</strong></h5>
+                    
+                    </div>
+                </div>
+                
+                <hr>
+                {% for item in items %}
+                <div class="cart-row">
+                    <div style="flex: 1; min-width: 150px; margin-right: -10px;">
+                        <div class="box-element-product col-md-3">
+                            <img class="row-image product-img" src="{{ item.product.imageURL }}" alt="" >
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 themed-grid-col row" style="margin-left: 2em;">
+                        <div class="pb-3">
+                            <div style="flex: 2;">
+                                <strong>
+                                    {{ item.product.name }}
+                                </strong>
+                            </div>
+
+                            <div style="flex: 2;">
+                            <strong>
+                                Price: ₹{{ item.product.price }}
+                            </strong>
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <div class="row" style="margin-right: 15%;">
+                            <div class="col-md-4 themed-grid-col" >
+                                <div style="flex: 2;">
+                                    <strong>
+                                        <svg style="margin-left: 15px;" data-product="{{item.product.id}}" data-action="add" class="chg-quantity bi bi-caret-up-fill update-cart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewbox="0 0 16 16">
+                                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                        </svg>
+                                        Qty: <p class="quantity">{{ item.quantity }}</p> 
+                                        <svg style="margin-left: 15px;" data-product="{{item.product.id}}" data-action="remove" class="chg-quantity bi bi-caret-down-fill update-cart" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"  viewbox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                        </svg>
+                                    </strong>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4 themed-grid-col" >
+                                <div style="flex: 2;">
+                                    <strong>
+                                        Total: ₹{{ item.get_total }}
+                                    </strong>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+            
+
+          <div class="box-element hidden" id="payment-info">
+              Payment Options
+              <br>
+              <button id="make-payment" class="btn btn-outline-dark"> Make Payment</button>
+          </div>
+
+        </div>
+        <div class="col-lg-6" id="form-com">
+            
+            <div class="box-element" id="form-wrapper">
+                    
+            <form id="form">
+                
+                <div id="user-info" class="row">
+                    <h4 style="padding-bottom: .7%; padding-top: .4%;">Personal Information</h4>
+                    <hr>
+                    <div class="col-sm-6">
+                        <label for="name" class="form-label">First name</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                          Valid first name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="lastName" class="form-label">Last name</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                          Valid last name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="username" class="form-label">Username</label>
+                        <div class="input-group has-validation">
+                          <span class="input-group-text">@</span>
+                          <input type="text" class="form-control" id="username" placeholder="Username" required>
+                        <div class="invalid-feedback">
+                            Your username is required.
+                          </div>
+                        </div>
+                    </div>
+          
+                    <div class="col-12">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                    </div>
+                    <hr style="margin-top: 5%;">
+                </div>
+                
+
+                <div id="shipping-info">
+                    
+                    <h4 style="margin-bottom: 4%;">Shipping Information</h4>
+                    <hr>
+                    <div class="col-12">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                        <div class="invalid-feedback">
+                          Please enter your shipping address.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+                        <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="state" class="form-label">State</label>
+                            <select class="form-select" id="state" required>
+                              <option value="">Choose...</option>
+                              <option>Delhi</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              Please provide a valid state.
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="city" class="form-label">City</label>
+                            <select class="form-select" id="city" required>
+                              <option value="">Choose...</option>
+                              <option>New Delhi</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              Please provide a valid state.
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="zipcode" class="form-label">Zip Code</label>
+                            <input type="text" class="form-control" id="zipcode" placeholder="" required>
+                            <div class="invalid-feedback">
+                              Zip code required.
+                            </div>
+                        </div>
+
+                    </div>
+                    
+
+                </div>
+                <hr>
+                
+                <input id="form-button" class="btn btn-dark col-lg-12" type="submit" value="Continue">
+                
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var shipping = "{{order.shipping}}"
+    var total = '{{order.get_cart_total}}'
+
+    if (shipping == 'False') {
+        document.getElementById('shipping-info').innerHTML = ''
+    }
+
+    if (user != 'AnonymousUser') {
+        document.getElementById('user-info').innerHTML = ''
+    }
+
+    if (shipping == 'False' && user != 'AnonymousUser' ) {
+        document.getElementById('form-wrapper').classList.add("hidden");
+        document.getElementById('payment-info').classList.remove('hidden');
+    }
+    
+
+    var form = document.getElementById('form')
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault()
+        console.log('Form Submitted...')
+        document.getElementById('form-button').classList.add('hidden')
+        document.getElementById('payment-info').classList.remove('hidden')
+        document.getElementById("payment-info").scrollIntoView();
+    })
+    document.getElementById('make-payment').addEventListener('click', function e() {
+        submitFormData()
+    })
+    function submitFormData() {
+        console.log('payment button clicked')
+
+        var userFormData = {
+            'name': null,
+            'email':null,
+            'total': total,
+        }
+
+        var shippingInfo = {
+            'address': null,
+            'city': null,
+            'state': null,
+            'zipcode':null,
+        }
+
+        if (shipping != 'False') {
+            shippingInfo.address = form.address.value
+            shippingInfo.city = form.city.value
+            shippingInfo.state = form.state.value
+            shippingInfo.zipcode = form.zipcode.value
+
+        }
+
+        if (user == 'AnonymousUser') {
+            userFormData.name = form.name.value
+            userFormData.email = form.email.value
+            
+        }
+
+        var url = '/process_order/'
+        fetch(url, {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success:', data);
+            alert('Transaction completed');
+
+            cart = {}
+            document.cookie = 'cart' + JSON.stringify(cart) + ";domain=;path=/"
+
+            window.location.href = "{% url 'store' %}"
+            
+        })
+    }
+</script>
+{% endblock content %}

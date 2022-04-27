@@ -1,0 +1,52 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content%}
+<style>
+    .product-img {
+        padding-top: 7%;
+        padding-bottom: 5%; 
+        padding-left: 28%; 
+        padding-right: 28% ; 
+        max-height: 100%;
+        max-width: 100%;
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto;
+        min-width: 299px;
+        min-height: 195px;
+    }
+</style>
+<div class="top=container" style="margin-left: 1em; margin-right: 5%;" >
+    <h1>Asian Delight Store</h1>
+    <div class="row" >
+        {% for product in products %}
+            <div class="col-lg-4" style="margin-bottom: 3%;" >
+                {% if product.image %}
+                <div class="box-element product" style="box-shadow: none; min-width: 303.5px;">
+                    <img class="thumbnail product-img" src="{{ product.image.url }}" alt="something went wrong">
+                </div>
+                {% endif %}
+                <div class="box-element product">
+                    <h5>
+                        <strong>
+                            {{product.name}}
+                        </strong>
+                    </h5>
+                    <hr>
+                    <div class="fix">
+                        <div class="char ">
+                            <button data-product= "{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart"> Add to Cart</button>
+                            <a class="btn btn-outline-success" href="#">View</a>
+                        </div>
+                        
+                        <div class="char float-right">
+                            <h4>₹{{product.price|floatformat:2}}</h4>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        {% endfor %}
+    </div>   
+</div>
+{% endblock content %}
